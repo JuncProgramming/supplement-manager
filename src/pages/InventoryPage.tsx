@@ -7,6 +7,7 @@ import { deleteSupplement } from '@/db/api'
 import type { Supplement } from '@/types'
 import { Package } from 'lucide-react'
 import ConfirmModal from '@/components/ConfirmModal'
+import Spinner from '@/components/Spinner'
 
 const InventoryPage = () => {
   const supplements = useLiveQuery(() => db.supplements.toArray())
@@ -39,8 +40,11 @@ const InventoryPage = () => {
 
   if (!supplements)
     return (
-      <div className="-mt-32 flex flex-1 flex-col items-center justify-center">
-        <p className="text-gray-600">Loading inventory...</p>
+      <div className="mt-32 flex flex-col items-center justify-center gap-4">
+        <Spinner></Spinner>
+        <p className="animate-[fadeIn_0.3s_ease-in_0.2s_both] text-sm text-gray-500">
+          Loading supplement inventory
+        </p>
       </div>
     )
 
