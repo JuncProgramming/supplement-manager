@@ -6,9 +6,9 @@ const ConfirmModal = ({
   onCloseClick,
   onConfirmClick,
   confirmBtnText = 'Confirm',
-  confirmingBtnText = 'Confirming',
+  confirmingBtnText = 'Confirming...',
   closeBtnText = 'Close',
-  closingBtnText = 'Closing'
+  closingBtnText = 'Closing...'
 }: {
   message?: string
   onCloseClick: () => void | Promise<void>
@@ -60,7 +60,7 @@ const ConfirmModal = ({
           <button
             onClick={handleClose}
             className="cursor-pointer rounded-lg border-2 border-gray-200 p-2 text-blue-600 hover:bg-gray-50"
-            data-testid="button-add-supplement-form-close"
+            data-testid="button-confirm-modal-close"
           >
             <X className="h-6 w-6 shrink-0" data-testid="icon-close"></X>
           </button>
