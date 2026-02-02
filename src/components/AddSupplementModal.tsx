@@ -3,15 +3,26 @@ import { X } from 'lucide-react'
 import { useState } from 'react'
 import type { UnitType } from '@/types'
 import { UNIT_LABELS } from '@/types'
-import { addSupplement } from '@/db/api'
+import { addSupplement, updateSupplement } from '@/db/api'
+import type { Supplement } from '@/types'
 
-const AddSupplementModal = ({ handleClose }: { handleClose: () => void }) => {
-  const [name, setName] = useState('')
-  const [brand, setBrand] = useState('')
-  const [unit, setUnit] = useState<UnitType>(UNITS.GRAMS)
-  const [currentStock, setCurrentStock] = useState('')
-  const [dosagePerServing, setDosagePerServing] = useState('')
+const AddSupplementModal = ({
+  handleClose,
+  previousData
+}: {
+  handleClose: () => void
+  previousData: Supplement | null
+}) => {
+  const [name, setName] = useState(previousData?.name ?? '')
+  const [brand, setBrand] = useState(previousData?.brand ?? '')
+  const [unit, setUnit] = useState<UnitType>(previousData?.unit ?? UNITS.GRAMS)
+  const [currentStock, setCurrentStock] = useState(previousData?.currentStock?.toString() ?? '')
+  const [dosagePerServing, setDosagePerServing] = useState(
+    previousData?.dosagePerServing?.toString() ?? ''
+  )
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const isEditMode = !!previousData
 
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault()
@@ -32,13 +43,19 @@ const AddSupplementModal = ({ handleClose }: { handleClose: () => void }) => {
     setIsSubmitting(true)
 
     try {
-      await addSupplement({
+      const data = {
         name,
         brand: brand || undefined,
         unit,
         currentStock: currentStockValue,
         dosagePerServing: dosagePerServingValue
-      })
+      }
+
+      if (isEditMode && previousData?.id) {
+        await updateSupplement(previousData.id, data)
+      } else {
+        await addSupplement(data)
+      }
 
       handleClose()
     } catch (error) {
@@ -50,27 +67,29 @@ const AddSupplementModal = ({ handleClose }: { handleClose: () => void }) => {
 
   return (
     <div
-      className="fixed inset-0 z-100 -mt-16 flex items-center justify-center bg-black/50"
+      className="fixed inset-0 z-50 -mt-16 flex items-center justify-center bg-black/50 p-4"
       onClick={handleClose}
     >
       <div
-        className="flex w-fit flex-col items-start justify-center rounded-lg border border-gray-200 bg-white p-6"
+        className="flex w-full max-w-md flex-col items-start justify-center rounded-lg border border-gray-200 bg-white p-6"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="mb-6 flex min-w-xl justify-between border-b border-gray-100 pb-6">
-          <h1 className="text-2xl font-bold text-zinc-800">New supplement</h1>
+        <div className="mb-6 flex w-full items-start justify-between gap-6 border-b border-gray-100 pb-6 sm:gap-0">
+          <h1 className="text-2xl font-bold text-gray-800">
+            {isEditMode ? 'Edit supplement' : 'New supplement'}
+          </h1>
           <button
             onClick={handleClose}
             className="cursor-pointer rounded-lg border-2 border-gray-200 p-2 text-blue-600"
             data-testid="add-supplement-form-close-btn"
           >
-            <X className="shrink-0" data-testid="icon-close"></X>
+            <X className="h-6 w-6 shrink-0" data-testid="icon-close"></X>
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="min-w-full space-y-6">
           <div className="flex flex-col">
-            <label htmlFor="supplement-name" className="mb-1 text-zinc-800">
+            <label htmlFor="supplement-name" className="mb-1 text-gray-800">
               Name
             </label>
             <input
@@ -85,7 +104,7 @@ const AddSupplementModal = ({ handleClose }: { handleClose: () => void }) => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="supplement-brand" className="mb-1 text-zinc-800">
+            <label htmlFor="supplement-brand" className="mb-1 text-gray-800">
               Brand (optional)
             </label>
             <input
@@ -99,7 +118,7 @@ const AddSupplementModal = ({ handleClose }: { handleClose: () => void }) => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="supplement-unit" className="mb-1 text-zinc-800">
+            <label htmlFor="supplement-unit" className="mb-1 text-gray-800">
               Unit
             </label>
             <select
@@ -117,7 +136,7 @@ const AddSupplementModal = ({ handleClose }: { handleClose: () => void }) => {
             </select>
           </div>
           <div className="flex flex-col">
-            <label htmlFor="supplement-current-stock" className="mb-1 text-zinc-800">
+            <label htmlFor="supplement-current-stock" className="mb-1 text-gray-800">
               Current Stock
             </label>
             <input
@@ -136,7 +155,7 @@ const AddSupplementModal = ({ handleClose }: { handleClose: () => void }) => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="supplement-dosage-per-serving" className="mb-1 text-zinc-800">
+            <label htmlFor="supplement-dosage-per-serving" className="mb-1 text-gray-800">
               Dosage per serving
             </label>
             <input
@@ -158,7 +177,13 @@ const AddSupplementModal = ({ handleClose }: { handleClose: () => void }) => {
             disabled={isSubmitting}
             className="min-w-full rounded-md bg-blue-600 p-2 font-semibold text-white hover:bg-blue-800"
           >
-            {isSubmitting ? 'Adding...' : 'Add Supplement'}
+            {isSubmitting
+              ? isEditMode
+                ? 'Editing...'
+                : 'Adding...'
+              : isEditMode
+                ? 'Edit Supplement'
+                : 'Add Supplement'}
           </button>
         </form>
       </div>
