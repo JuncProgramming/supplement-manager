@@ -17,6 +17,7 @@ export const UNIT_LABELS: Record<UnitType, string> = {
 export type Supplement = {
   id?: number
   name: string
+  brand?: string
   stock: number
   unit: UnitType
   dosagePerServing: number
