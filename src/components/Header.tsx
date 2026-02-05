@@ -3,7 +3,7 @@ import { PillBottle, X, Menu, CalendarDays, Package, LayoutDashboard } from 'luc
 import { useState } from 'react'
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white">
@@ -48,16 +48,25 @@ const Header = () => {
 
         <button
           className="rounded-lg border-2 border-gray-200 p-2 text-blue-600 md:hidden"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          data-testid="mobile-menu-toggle-btn"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          {isMenuOpen ? <X className="shrink-0"></X> : <Menu className="shrink-0"></Menu>}
+          {isMobileMenuOpen ? (
+            <X className="shrink-0" data-testid="icon-close"></X>
+          ) : (
+            <Menu className="shrink-0" data-testid="icon-open"></Menu>
+          )}
         </button>
       </div>
 
-      {isMenuOpen && (
-        <div className="border-t border-gray-100 bg-white px-4 py-4 md:hidden">
+      {isMobileMenuOpen && (
+        <div
+          className="border-t border-gray-100 bg-white px-4 py-4 md:hidden"
+          data-testid="mobile-menu"
+        >
           <nav className="flex flex-col space-y-5">
             <NavLink
+              onClick={() => setIsMobileMenuOpen(false)}
               to="/dashboard"
               className={({ isActive }) =>
                 `flex gap-2 font-semibold transition-colors ${
@@ -72,6 +81,7 @@ const Header = () => {
             </NavLink>
 
             <NavLink
+              onClick={() => setIsMobileMenuOpen(false)}
               to="/inventory"
               className={({ isActive }) =>
                 `flex gap-2 font-semibold transition-colors ${
@@ -86,6 +96,7 @@ const Header = () => {
             </NavLink>
 
             <NavLink
+              onClick={() => setIsMobileMenuOpen(false)}
               to="/history"
               className={({ isActive }) =>
                 `flex gap-2 font-semibold transition-colors ${

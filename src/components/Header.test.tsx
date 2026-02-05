@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import Header from './Header'
 
@@ -48,5 +49,52 @@ describe('Header', () => {
       'text-blue-800',
       'hover:text-blue-600'
     )
+  })
+
+  it('should open and close the mobile menu when the button is clicked and toggle the button icon', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    )
+
+    const toggleButton = screen.getByTestId('mobile-menu-toggle-btn')
+
+    expect(screen.queryByTestId('mobile-menu')).not.toBeInTheDocument()
+    expect(screen.getByTestId('icon-open')).toBeVisible()
+    expect(screen.queryByTestId('icon-close')).not.toBeInTheDocument()
+
+    await user.click(toggleButton)
+
+    expect(screen.getByTestId('mobile-menu')).toBeVisible()
+    expect(screen.queryByTestId('icon-open')).not.toBeInTheDocument()
+    expect(screen.getByTestId('icon-close')).toBeVisible()
+
+    await user.click(toggleButton)
+
+    expect(screen.queryByTestId('mobile-menu')).not.toBeInTheDocument()
+    expect(screen.getByTestId('icon-open')).toBeVisible()
+    expect(screen.queryByTestId('icon-close')).not.toBeInTheDocument()
+  })
+
+  it('should close the mobile menu when a navigation link is clicked', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    )
+
+    await user.click(screen.getByRole('button'))
+
+    const mobileMenu = screen.getByTestId('mobile-menu')
+    const mobileHistoryLink = within(mobileMenu).getByRole('link', { name: /history/i })
+
+    await user.click(mobileHistoryLink)
+
+    expect(screen.queryByTestId('mobile-menu')).not.toBeInTheDocument()
   })
 })
