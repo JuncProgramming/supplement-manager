@@ -3,8 +3,8 @@ import { PillBottle } from 'lucide-react'
 
 const Header = () => {
   return (
-    <header className="bg-white h-16 items-center px-4 justify-between flex flex-row border-b border-gray-200">
-      <h1 className="font-semibold text-blue-600 flex flex-row gap-1 items-center">
+    <header className="flex h-16 flex-row items-center justify-between border-b border-gray-200 bg-white px-4">
+      <h1 className="flex flex-row items-center gap-1 font-semibold text-blue-600">
         <PillBottle className="rotate-6" /> Supplement Manager
       </h1>
       <nav className="flex gap-4">
