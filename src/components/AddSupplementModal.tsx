@@ -3,17 +3,49 @@ import { X } from 'lucide-react'
 import { useState } from 'react'
 import type { UnitType } from '@/types'
 import { UNIT_LABELS } from '@/types'
+import { addSupplement } from '@/db/api'
 
 const AddSupplementModal = ({ handleClose }: { handleClose: () => void }) => {
   const [name, setName] = useState('')
   const [brand, setBrand] = useState('')
   const [unit, setUnit] = useState<UnitType>(UNITS.GRAMS)
-  const [currentStock, setCurrentStock] = useState<number | ''>('')
-  const [dosagePerServing, setDosagePerServing] = useState<number | ''>('')
+  const [currentStock, setCurrentStock] = useState('')
+  const [dosagePerServing, setDosagePerServing] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = (e: React.SubmitEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault()
-    handleClose()
+
+    const currentStockValue = parseFloat(currentStock)
+    const dosagePerServingValue = parseFloat(dosagePerServing)
+
+    if (isNaN(currentStockValue) || currentStockValue <= 0) {
+      console.error('Failed to add supplement')
+      return
+    }
+
+    if (isNaN(dosagePerServingValue) || dosagePerServingValue <= 0) {
+      console.error('Failed to add supplement')
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      await addSupplement({
+        name,
+        brand: brand || undefined,
+        unit,
+        currentStock: currentStockValue,
+        dosagePerServing: dosagePerServingValue
+      })
+
+      handleClose()
+    } catch (error) {
+      console.error('Failed to add supplement:', error)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -26,7 +58,7 @@ const AddSupplementModal = ({ handleClose }: { handleClose: () => void }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-6 flex min-w-xl justify-between border-b border-gray-100 pb-6">
-          <h1 className="text-2xl font-semibold text-zinc-800">New supplement</h1>
+          <h1 className="text-2xl font-bold text-zinc-800">New supplement</h1>
           <button
             onClick={handleClose}
             className="cursor-pointer rounded-lg border-2 border-gray-200 p-2 text-blue-600"
@@ -38,8 +70,12 @@ const AddSupplementModal = ({ handleClose }: { handleClose: () => void }) => {
 
         <form onSubmit={handleSubmit} className="min-w-full space-y-6">
           <div className="flex flex-col">
-            <label className="mb-1 text-zinc-800">Name</label>
+            <label htmlFor="supplement-name" className="mb-1 text-zinc-800">
+              Name
+            </label>
             <input
+              id="supplement-name"
+              maxLength={50}
               type="text"
               required
               placeholder="Creatine monohydrate"
@@ -49,8 +85,12 @@ const AddSupplementModal = ({ handleClose }: { handleClose: () => void }) => {
             />
           </div>
           <div className="flex flex-col">
-            <label className="mb-1 text-zinc-800">Brand (optional)</label>
+            <label htmlFor="supplement-brand" className="mb-1 text-zinc-800">
+              Brand (optional)
+            </label>
             <input
+              id="supplement-brand"
+              maxLength={30}
               type="text"
               placeholder="Generic"
               value={brand}
@@ -59,8 +99,11 @@ const AddSupplementModal = ({ handleClose }: { handleClose: () => void }) => {
             />
           </div>
           <div className="flex flex-col">
-            <label className="mb-1 text-zinc-800">Unit</label>
+            <label htmlFor="supplement-unit" className="mb-1 text-zinc-800">
+              Unit
+            </label>
             <select
+              id="supplement-unit"
               required
               value={unit}
               onChange={(e) => setUnit(e.target.value as UnitType)}
@@ -74,31 +117,48 @@ const AddSupplementModal = ({ handleClose }: { handleClose: () => void }) => {
             </select>
           </div>
           <div className="flex flex-col">
-            <label className="mb-1 text-zinc-800">Current Stock</label>
+            <label htmlFor="supplement-current-stock" className="mb-1 text-zinc-800">
+              Current Stock
+            </label>
             <input
+              id="supplement-current-stock"
               type="number"
+              step="any"
+              min="0.001"
               required
               placeholder="500"
               value={currentStock}
-              onChange={(e) => setCurrentStock(e.target.value === '' ? '' : Number(e.target.value))}
+              onChange={(e) => {
+                if (e.target.value.length > 10) return
+                setCurrentStock(e.target.value)
+              }}
               className="rounded-md border-2 border-gray-200 p-2 focus:border-blue-600 focus:outline-none"
             />
           </div>
           <div className="flex flex-col">
-            <label className="mb-1 text-zinc-800">Dosage per serving</label>
+            <label htmlFor="supplement-dosage-per-serving" className="mb-1 text-zinc-800">
+              Dosage per serving
+            </label>
             <input
+              id="supplement-dosage-per-serving"
               type="number"
+              step="any"
+              min="0.001"
               required
               placeholder="5"
               value={dosagePerServing}
-              onChange={(e) =>
-                setDosagePerServing(e.target.value === '' ? '' : Number(e.target.value))
-              }
+              onChange={(e) => {
+                if (e.target.value.length > 10) return
+                setDosagePerServing(e.target.value)
+              }}
               className="rounded-md border-2 border-gray-200 p-2 focus:border-blue-600 focus:outline-none"
             />
           </div>
-          <button className="min-w-full rounded-md bg-blue-600 p-2 font-semibold text-white hover:bg-blue-800">
-            Add
+          <button
+            disabled={isSubmitting}
+            className="min-w-full rounded-md bg-blue-600 p-2 font-semibold text-white hover:bg-blue-800"
+          >
+            {isSubmitting ? 'Adding...' : 'Add Supplement'}
           </button>
         </form>
       </div>
