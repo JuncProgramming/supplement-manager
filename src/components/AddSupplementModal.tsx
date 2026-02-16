@@ -30,7 +30,7 @@ const AddSupplementModal = ({
     const currentStockValue = parseFloat(currentStock)
     const dosagePerServingValue = parseFloat(dosagePerServing)
 
-    if (isNaN(currentStockValue) || currentStockValue <= 0) {
+    if (isNaN(currentStockValue) || currentStockValue < 0) {
       console.error('Failed to add supplement')
       return
     }
@@ -66,14 +66,9 @@ const AddSupplementModal = ({
   }
 
   return (
-    <div
-      className="fixed inset-0 z-50 -mt-16 flex items-center justify-center bg-black/50 p-4"
-      onClick={handleClose}
-    >
-      <div
-        className="flex w-full max-w-md flex-col items-start justify-center rounded-lg border border-gray-200 bg-white p-6"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="fixed inset-0 bg-black/50 transition-colors" onClick={handleClose} />
+      <div className="relative z-10 flex w-full max-w-md flex-col items-start justify-center rounded-lg border border-gray-200 bg-white p-6">
         <div className="mb-6 flex w-full items-start justify-between gap-6 border-b border-gray-100 pb-6 sm:gap-0">
           <h1 className="text-2xl font-bold text-gray-800">
             {isEditMode ? 'Edit supplement' : 'New supplement'}
@@ -143,7 +138,7 @@ const AddSupplementModal = ({
               id="supplement-current-stock"
               type="number"
               step="any"
-              min="0.001"
+              min="0"
               required
               placeholder="500"
               value={currentStock}
@@ -175,7 +170,7 @@ const AddSupplementModal = ({
           </div>
           <button
             disabled={isSubmitting}
-            className="min-w-full rounded-md bg-blue-600 p-2 font-semibold text-white hover:bg-blue-800"
+            className="min-w-full rounded-md bg-blue-600 p-2 font-semibold text-white hover:bg-blue-800 disabled:cursor-not-allowed"
           >
             {isSubmitting
               ? isEditMode

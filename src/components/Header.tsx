@@ -55,9 +55,9 @@ const Header = () => {
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? (
-            <X className="shrink-0" data-testid="icon-close"></X>
+            <X className="shrink-0" data-testid="icon-close" />
           ) : (
-            <Menu className="shrink-0" data-testid="icon-open"></Menu>
+            <Menu className="shrink-0" data-testid="icon-open" />
           )}
         </button>
       </div>
@@ -70,7 +70,7 @@ const Header = () => {
           <nav className="flex flex-col space-y-5">
             <NavLink
               onClick={() => setIsMobileMenuOpen(false)}
-              to="/dashboard"
+              to="/"
               className={({ isActive }) =>
                 `flex gap-2 font-semibold transition-colors ${
                   isActive
@@ -79,7 +79,7 @@ const Header = () => {
                 }`
               }
             >
-              <LayoutDashboard className="shrink-0"></LayoutDashboard>
+              <LayoutDashboard className="shrink-0" />
               Dashboard
             </NavLink>
 
@@ -94,7 +94,7 @@ const Header = () => {
                 }`
               }
             >
-              <Package className="shrink-0"></Package>
+              <Package className="shrink-0" />
               Inventory
             </NavLink>
 
@@ -109,7 +109,7 @@ const Header = () => {
                 }`
               }
             >
-              <CalendarDays className="shrink-0"></CalendarDays>
+              <CalendarDays className="shrink-0" />
               History
             </NavLink>
           </nav>
