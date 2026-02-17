@@ -14,3 +14,11 @@ export const formatUnits = (amount: number, unit: UnitType): string => {
 
   return unit
 }
+
+export const formatServing = (amount: number): string => {
+  if (amount) {
+    return amount === 1 ? 'serving' : 'servings'
+  }
+
+  return 'servings'
+}
