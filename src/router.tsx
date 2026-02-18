@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import { RootLayout } from '@/layouts/RootLayout'
 import DashboardPage from '@/pages/DashboardPage'
 import ErrorPage from '@/pages/ErrorPage'
-import InventoryPage from './pages/InventoryPage'
+import InventoryPage from '@/pages/InventoryPage'
 
 export const router = createBrowserRouter([
   {

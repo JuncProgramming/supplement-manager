@@ -14,6 +14,26 @@ export const UNIT_LABELS: Record<UnitType, string> = {
   [UNITS.SCOOPS]: 'Scoops'
 }
 
+export const TIMES_OF_DAY = {
+  MORNING: 'morning',
+  AFTERNOON: 'afternoon',
+  EVENING: 'evening',
+  BEFORE_WORKOUT: 'before_workout',
+  DURING_WORKOUT: 'during_workout',
+  AFTER_WORKOUT: 'after_workout'
+}
+
+export type TimeOfDayType = (typeof TIMES_OF_DAY)[keyof typeof TIMES_OF_DAY]
+
+export const TIME_OF_DAY_LABELS: Record<TimeOfDayType, string> = {
+  [TIMES_OF_DAY.MORNING]: 'Morning',
+  [TIMES_OF_DAY.AFTERNOON]: 'Afternoon',
+  [TIMES_OF_DAY.EVENING]: 'Evening',
+  [TIMES_OF_DAY.BEFORE_WORKOUT]: 'Before workout',
+  [TIMES_OF_DAY.DURING_WORKOUT]: 'During workout',
+  [TIMES_OF_DAY.AFTER_WORKOUT]: 'After workout'
+}
+
 export type Supplement = {
   id?: number
   name: string
@@ -21,10 +41,13 @@ export type Supplement = {
   currentStock: number
   unit: UnitType
   dosagePerServing: number
+  timesOfDay: TimeOfDayType[]
 }
 
 export type IntakeLog = {
   id?: number
   supplementId: number
   date: Date
+  amountTaken: number
+  unit: UnitType
 }

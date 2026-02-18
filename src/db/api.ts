@@ -1,5 +1,5 @@
 import type { Supplement } from '@/types'
-import db from './db'
+import db from '@/db/db'
 
 export const addSupplement = async (supplement: Supplement) => {
   try {
@@ -22,9 +22,12 @@ export const deleteSupplement = async (supplementId?: number) => {
   }
 }
 
-export const updateSupplement = async (supplementId: number, data: object) => {
+export const updateSupplement = async (
+  supplementId: number,
+  supplementData: Partial<Supplement>
+) => {
   try {
-    await db.supplements.update(supplementId, data)
+    await db.supplements.update(supplementId, supplementData)
   } catch (error) {
     console.error('Failed to update supplement:', error)
     throw error

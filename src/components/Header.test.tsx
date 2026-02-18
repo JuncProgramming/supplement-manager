@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
-import Header from './Header'
+import Header from '@/components/Header'
 
 describe('Header', () => {
   it('should render the application title and all navigation links', () => {
