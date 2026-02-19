@@ -26,12 +26,14 @@ const SupplementCard = ({
           <button
             onClick={onTrashClick}
             className="cursor-pointer text-gray-400 transition-colors hover:text-red-400"
+            data-testid="button-trash"
           >
             <Trash2 size={20} />
           </button>
           <button
             onClick={onPencilClick}
             className="cursor-pointer text-gray-400 transition-colors hover:text-gray-600"
+            data-testid="button-pencil"
           >
             <Pencil size={20} />
           </button>
@@ -65,7 +67,7 @@ const SupplementCard = ({
         >
           {isStockLow ? (
             <>
-              <TriangleAlert size={16} />
+              <TriangleAlert data-testid="icon-alert" size={16} />
               <span>
                 Low stock ({Math.floor(servingsLeft)} {formatServing(Math.floor(servingsLeft))}{' '}
                 left)
@@ -73,7 +75,7 @@ const SupplementCard = ({
             </>
           ) : (
             <>
-              <CircleCheck size={16} />
+              <CircleCheck data-testid="icon-check" size={16} />
               <span>
                 {Math.floor(servingsLeft)} {formatServing(Math.floor(servingsLeft))} in stock
               </span>
