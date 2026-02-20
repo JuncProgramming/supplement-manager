@@ -87,7 +87,11 @@ const AddSupplementModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4">
-      <div className="fixed inset-0 bg-black/50 transition-colors" onClick={handleClose} />
+      <div
+        className="fixed inset-0 bg-black/50 transition-colors"
+        data-testid="modal-backdrop"
+        onClick={handleClose}
+      />
       <div className="relative z-10 my-auto flex w-full max-w-md flex-col items-start justify-center rounded-lg border border-gray-200 bg-white p-6">
         <div className="mb-6 flex w-full items-start justify-between gap-6 border-b border-gray-100 pb-6 sm:gap-0">
           <h1 className="text-2xl font-bold text-gray-800">
@@ -96,7 +100,7 @@ const AddSupplementModal = ({
           <button
             onClick={handleClose}
             className="cursor-pointer rounded-lg border-2 border-gray-200 p-2 text-blue-600"
-            data-testid="add-supplement-form-close-btn"
+            data-testid="button-add-supplement-form-close"
           >
             <X className="h-6 w-6 shrink-0" data-testid="icon-close"></X>
           </button>
@@ -133,9 +137,7 @@ const AddSupplementModal = ({
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="supplement-times-of-day" className="mb-1 text-gray-800">
-              Intake schedule
-            </label>
+            <p className="mb-1 text-gray-800">Intake schedule</p>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
               {Object.values(TIMES_OF_DAY).map((time) => {
                 const isSelected = timesOfDay.includes(time)

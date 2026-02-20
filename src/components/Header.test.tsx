@@ -25,7 +25,7 @@ describe('Header', () => {
       </MemoryRouter>
     )
 
-    expect(screen.getByRole('link', { name: /dashboard/i })).toHaveAttribute('href', '/dashboard')
+    expect(screen.getByRole('link', { name: /dashboard/i })).toHaveAttribute('href', '/')
     expect(screen.getByRole('link', { name: /inventory/i })).toHaveAttribute('href', '/inventory')
     expect(screen.getByRole('link', { name: /history/i })).toHaveAttribute('href', '/history')
   })
@@ -60,7 +60,7 @@ describe('Header', () => {
       </MemoryRouter>
     )
 
-    const toggleButton = screen.getByTestId('mobile-menu-toggle-btn')
+    const toggleButton = screen.getByTestId('button-mobile-menu-toggle')
 
     expect(screen.queryByTestId('mobile-menu')).not.toBeInTheDocument()
     expect(screen.getByTestId('icon-open')).toBeVisible()

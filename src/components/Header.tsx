@@ -51,7 +51,7 @@ const Header = () => {
 
         <button
           className="cursor-pointer rounded-lg border-2 border-gray-200 p-2 text-blue-600 md:hidden"
-          data-testid="mobile-menu-toggle-btn"
+          data-testid="button-mobile-menu-toggle"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? (
