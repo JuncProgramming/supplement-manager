@@ -50,7 +50,7 @@ const Header = () => {
         </nav>
 
         <button
-          className="cursor-pointer rounded-lg border-2 border-gray-200 p-2 text-blue-600 md:hidden"
+          className="cursor-pointer rounded-lg border-2 border-gray-200 p-2 text-blue-600 hover:bg-gray-50 md:hidden"
           data-testid="button-mobile-menu-toggle"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >

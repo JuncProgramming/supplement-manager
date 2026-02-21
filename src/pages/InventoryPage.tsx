@@ -6,16 +6,18 @@ import SupplementCard from '@/components/SupplementCard'
 import { deleteSupplement } from '@/db/api'
 import type { Supplement } from '@/types'
 import { Package } from 'lucide-react'
+import ConfirmModal from '@/components/ConfirmModal'
 
 const InventoryPage = () => {
   const supplements = useLiveQuery(() => db.supplements.toArray())
 
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isSupplementModalOpen, setIsSupplementModalOpen] = useState(false)
+  const [supplementToDelete, setSupplementToDelete] = useState<number | null>(null)
   const [supplementToEdit, setSupplementToEdit] = useState<Supplement | null>(null)
 
   const handleAdd = () => {
     setSupplementToEdit(null)
-    setIsModalOpen(true)
+    setIsSupplementModalOpen(true)
   }
 
   const handleDelete = async (supplementId?: number) => {
@@ -28,7 +30,7 @@ const InventoryPage = () => {
 
   const handleEdit = (supplement: Supplement) => {
     setSupplementToEdit(supplement)
-    setIsModalOpen(true)
+    setIsSupplementModalOpen(true)
   }
 
   if (!supplements)
@@ -63,7 +65,9 @@ const InventoryPage = () => {
               <SupplementCard
                 key={supplement.id}
                 supplement={supplement}
-                onTrashClick={() => handleDelete(supplement.id)}
+                onTrashClick={() => {
+                  if (supplement.id) setSupplementToDelete(supplement.id)
+                }}
                 onPencilClick={() => handleEdit(supplement)}
               ></SupplementCard>
             ))}
@@ -71,10 +75,20 @@ const InventoryPage = () => {
         )}
       </div>
 
-      {isModalOpen && (
+      {isSupplementModalOpen && (
         <AddSupplementModal
-          handleClose={() => setIsModalOpen(false)}
+          handleClose={() => setIsSupplementModalOpen(false)}
           previousData={supplementToEdit}
+        />
+      )}
+
+      {supplementToDelete && (
+        <ConfirmModal
+          onCloseClick={() => setSupplementToDelete(null)}
+          onConfirmClick={async () => {
+            await handleDelete(supplementToDelete)
+            setSupplementToDelete(null)
+          }}
         />
       )}
     </>

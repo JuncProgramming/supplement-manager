@@ -93,13 +93,13 @@ const AddSupplementModal = ({
         onClick={handleClose}
       />
       <div className="relative z-10 my-auto flex w-full max-w-md flex-col items-start justify-center rounded-lg border border-gray-200 bg-white p-6">
-        <div className="mb-6 flex w-full items-start justify-between gap-6 border-b border-gray-100 pb-6 sm:gap-0">
+        <div className="mb-6 flex w-full items-start justify-between gap-6 border-b border-gray-100 pb-6">
           <h1 className="text-2xl font-bold text-gray-800">
             {isEditMode ? 'Edit supplement' : 'New supplement'}
           </h1>
           <button
             onClick={handleClose}
-            className="cursor-pointer rounded-lg border-2 border-gray-200 p-2 text-blue-600"
+            className="cursor-pointer rounded-lg border-2 border-gray-200 p-2 text-blue-600 hover:bg-gray-50"
             data-testid="button-add-supplement-form-close"
           >
             <X className="h-6 w-6 shrink-0" data-testid="icon-close"></X>
@@ -150,7 +150,7 @@ const AddSupplementModal = ({
                         isSelected ? prev.filter((t) => time !== t) : [...prev, time]
                       )
                     }}
-                    className={`flex items-center justify-center rounded-md border-2 font-medium text-gray-800 transition-colors ${isSelected ? 'border-blue-600 bg-gray-50 hover:border-blue-800 hover:bg-gray-100' : 'border-gray-200 hover:border-blue-600 hover:bg-gray-50'} h-14 px-3 py-1 text-center`}
+                    className={`flex cursor-pointer items-center justify-center rounded-md border-2 font-medium text-gray-800 transition-colors ${isSelected ? 'border-blue-600 bg-gray-50 hover:border-blue-800 hover:bg-gray-100' : 'border-gray-200 hover:border-blue-600 hover:bg-gray-50'} h-14 px-3 py-1 text-center`}
                   >
                     {TIME_OF_DAY_LABELS[time]}
                   </button>
@@ -222,7 +222,7 @@ const AddSupplementModal = ({
           )}
           <button
             disabled={isSubmitting}
-            className="min-w-full rounded-md bg-blue-600 p-2 font-semibold text-white hover:bg-blue-800 disabled:cursor-not-allowed"
+            className="min-w-full cursor-pointer rounded-md bg-blue-600 p-2 font-semibold text-white hover:bg-blue-800 disabled:cursor-not-allowed"
           >
             {isSubmitting
               ? isEditMode
