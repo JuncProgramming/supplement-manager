@@ -15,7 +15,9 @@ const AddSupplementModal = ({
   const [name, setName] = useState(previousData?.name ?? '')
   const [brand, setBrand] = useState(previousData?.brand ?? '')
   const [unit, setUnit] = useState<UnitType>(previousData?.unit ?? UNITS.GRAMS)
-  const [currentStock, setCurrentStock] = useState(previousData?.currentStock?.toString() ?? '')
+  const [currentStock, setCurrentStock] = useState(
+    previousData?.currentStock?.toString() ?? ''
+  )
   const [dosagePerServing, setDosagePerServing] = useState(
     previousData?.dosagePerServing?.toString() ?? ''
   )
@@ -147,7 +149,9 @@ const AddSupplementModal = ({
                     type="button"
                     onClick={() => {
                       setTimesOfDay((prev) =>
-                        isSelected ? prev.filter((t) => time !== t) : [...prev, time]
+                        isSelected
+                          ? prev.filter((t) => time !== t)
+                          : [...prev, time]
                       )
                     }}
                     className={`flex cursor-pointer items-center justify-center rounded-md border-2 font-medium text-gray-800 transition-colors ${isSelected ? 'border-blue-600 bg-gray-50 hover:border-blue-800 hover:bg-gray-100' : 'border-gray-200 hover:border-blue-600 hover:bg-gray-50'} h-14 px-3 py-1 text-center`}
@@ -177,7 +181,10 @@ const AddSupplementModal = ({
             </select>
           </div>
           <div className="flex flex-col">
-            <label htmlFor="supplement-current-stock" className="mb-1 text-gray-800">
+            <label
+              htmlFor="supplement-current-stock"
+              className="mb-1 text-gray-800"
+            >
               Current stock
             </label>
             <input
@@ -196,7 +203,10 @@ const AddSupplementModal = ({
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="supplement-dosage-per-serving" className="mb-1 text-gray-800">
+            <label
+              htmlFor="supplement-dosage-per-serving"
+              className="mb-1 text-gray-800"
+            >
               Dosage per serving
             </label>
             <input

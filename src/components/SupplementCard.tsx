@@ -14,13 +14,15 @@ const SupplementCard = ({
   const servingsLeft = supplement.currentStock / supplement.dosagePerServing
   const isStockLow = servingsLeft < 10
   return (
-    <li className="flex flex-col justify-between rounded-lg border border-gray-200 bg-white p-4 transition-colors">
+    <li className="flex flex-col justify-between rounded-lg border-2 border-gray-200 bg-white p-4 shadow-md transition-colors hover:border-blue-600 hover:shadow-blue-100">
       <div className="mb-4 flex items-start justify-between gap-6">
         <div className="min-w-0 flex-1">
           <p className="line-clamp-2 text-xs font-medium tracking-wide wrap-break-word text-gray-600 uppercase">
             {supplement.brand}
           </p>
-          <h3 className="font-semibold wrap-break-word text-gray-800">{supplement.name}</h3>
+          <h3 className="font-semibold wrap-break-word text-gray-800">
+            {supplement.name}
+          </h3>
         </div>
         <div className="flex shrink-0 gap-6 sm:gap-4">
           <button
@@ -55,7 +57,8 @@ const SupplementCard = ({
           <p className="font-medium text-gray-800">
             {supplement.dosagePerServing}
             <span className="ml-0.5 text-xs font-normal text-gray-600">
-              {formatUnits(supplement.dosagePerServing, supplement.unit)} / serving
+              {formatUnits(supplement.dosagePerServing, supplement.unit)} /
+              serving
             </span>
           </p>
         </div>
@@ -69,15 +72,16 @@ const SupplementCard = ({
             <>
               <TriangleAlert data-testid="icon-alert" size={16} />
               <span>
-                Low stock ({Math.floor(servingsLeft)} {formatServing(Math.floor(servingsLeft))}{' '}
-                left)
+                Low stock ({Math.floor(servingsLeft)}{' '}
+                {formatServing(Math.floor(servingsLeft))} left)
               </span>
             </>
           ) : (
             <>
               <CircleCheck data-testid="icon-check" size={16} />
               <span>
-                {Math.floor(servingsLeft)} {formatServing(Math.floor(servingsLeft))} in stock
+                {Math.floor(servingsLeft)}{' '}
+                {formatServing(Math.floor(servingsLeft))} in stock
               </span>
             </>
           )}

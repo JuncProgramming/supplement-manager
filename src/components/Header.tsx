@@ -1,5 +1,12 @@
 import { NavLink, Link } from 'react-router-dom'
-import { PillBottle, X, Menu, CalendarDays, Package, LayoutDashboard } from 'lucide-react'
+import {
+  PillBottle,
+  X,
+  Menu,
+  CalendarDays,
+  Package,
+  LayoutDashboard
+} from 'lucide-react'
 import { useState } from 'react'
 
 const Header = () => {
@@ -8,7 +15,10 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white">
       <div className="flex h-16 items-center justify-between px-4">
-        <Link to="/" className="font-semibold text-blue-600 transition-colors hover:text-blue-800">
+        <Link
+          to="/"
+          className="font-semibold text-blue-600 transition-colors hover:text-blue-800"
+        >
           <h1 className="flex flex-row items-center gap-1">
             <PillBottle className="shrink-0 rotate-6" /> Supplement Manager
           </h1>
@@ -19,7 +29,9 @@ const Header = () => {
             to="/"
             className={({ isActive }) =>
               `font-semibold transition-colors ${
-                isActive ? 'text-blue-800 hover:text-blue-600' : 'text-blue-600 hover:text-blue-800'
+                isActive
+                  ? 'text-blue-800 hover:text-blue-600'
+                  : 'text-blue-600 hover:text-blue-800'
               }`
             }
           >
@@ -30,7 +42,9 @@ const Header = () => {
             to="/inventory"
             className={({ isActive }) =>
               `font-semibold transition-colors ${
-                isActive ? 'text-blue-800 hover:text-blue-600' : 'text-blue-600 hover:text-blue-800'
+                isActive
+                  ? 'text-blue-800 hover:text-blue-600'
+                  : 'text-blue-600 hover:text-blue-800'
               }`
             }
           >
@@ -41,7 +55,9 @@ const Header = () => {
             to="/history"
             className={({ isActive }) =>
               `font-semibold transition-colors ${
-                isActive ? 'text-blue-800 hover:text-blue-600' : 'text-blue-600 hover:text-blue-800'
+                isActive
+                  ? 'text-blue-800 hover:text-blue-600'
+                  : 'text-blue-600 hover:text-blue-800'
               }`
             }
           >

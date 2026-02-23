@@ -11,7 +11,12 @@ describe('ConfirmModal', () => {
   })
 
   it('renders correctly with default props', () => {
-    render(<ConfirmModal onCloseClick={mockOnCloseClick} onConfirmClick={mockOnConfirmClick} />)
+    render(
+      <ConfirmModal
+        onCloseClick={mockOnCloseClick}
+        onConfirmClick={mockOnConfirmClick}
+      />
+    )
 
     expect(screen.getByText(/are you sure/i)).toBeVisible()
     expect(screen.getByRole('button', { name: /close/i })).toBeVisible()
@@ -36,7 +41,10 @@ describe('ConfirmModal', () => {
 
   it('locks body scrolling on mount and restores it on unmount', () => {
     const { unmount } = render(
-      <ConfirmModal onCloseClick={mockOnCloseClick} onConfirmClick={mockOnConfirmClick} />
+      <ConfirmModal
+        onCloseClick={mockOnCloseClick}
+        onConfirmClick={mockOnConfirmClick}
+      />
     )
 
     expect(document.body.style.overflow).toBe('hidden')
@@ -49,7 +57,12 @@ describe('ConfirmModal', () => {
   it('calls onCloseClick when the modal backdrop is clicked', async () => {
     const user = userEvent.setup()
 
-    render(<ConfirmModal onCloseClick={mockOnCloseClick} onConfirmClick={mockOnConfirmClick} />)
+    render(
+      <ConfirmModal
+        onCloseClick={mockOnCloseClick}
+        onConfirmClick={mockOnConfirmClick}
+      />
+    )
 
     await user.click(screen.getByTestId('modal-backdrop'))
 
@@ -59,7 +72,12 @@ describe('ConfirmModal', () => {
   it('calls onCloseClick when the X button is clicked', async () => {
     const user = userEvent.setup()
 
-    render(<ConfirmModal onCloseClick={mockOnCloseClick} onConfirmClick={mockOnConfirmClick} />)
+    render(
+      <ConfirmModal
+        onCloseClick={mockOnCloseClick}
+        onConfirmClick={mockOnConfirmClick}
+      />
+    )
 
     await user.click(screen.getByTestId('button-confirm-modal-close'))
 
@@ -69,7 +87,12 @@ describe('ConfirmModal', () => {
   it('calls onCloseClick when the Close button is clicked', async () => {
     const user = userEvent.setup()
 
-    render(<ConfirmModal onCloseClick={mockOnCloseClick} onConfirmClick={mockOnConfirmClick} />)
+    render(
+      <ConfirmModal
+        onCloseClick={mockOnCloseClick}
+        onConfirmClick={mockOnConfirmClick}
+      />
+    )
 
     await user.click(screen.getByRole('button', { name: /close/i }))
 
@@ -79,7 +102,12 @@ describe('ConfirmModal', () => {
   it('calls onConfirmClick when the Confirm button is clicked', async () => {
     const user = userEvent.setup()
 
-    render(<ConfirmModal onCloseClick={mockOnCloseClick} onConfirmClick={mockOnConfirmClick} />)
+    render(
+      <ConfirmModal
+        onCloseClick={mockOnCloseClick}
+        onConfirmClick={mockOnConfirmClick}
+      />
+    )
 
     await user.click(screen.getByRole('button', { name: /confirm/i }))
 
@@ -91,9 +119,16 @@ describe('ConfirmModal', () => {
   it('disables the confirm button and shows confirming text while onConfirmClick is pending', async () => {
     const user = userEvent.setup()
 
-    mockOnConfirmClick.mockImplementation(() => new Promise((resolve) => setTimeout(resolve, 100)))
+    mockOnConfirmClick.mockImplementation(
+      () => new Promise((resolve) => setTimeout(resolve, 100))
+    )
 
-    render(<ConfirmModal onCloseClick={mockOnCloseClick} onConfirmClick={mockOnConfirmClick} />)
+    render(
+      <ConfirmModal
+        onCloseClick={mockOnCloseClick}
+        onConfirmClick={mockOnConfirmClick}
+      />
+    )
 
     await user.click(screen.getByRole('button', { name: 'Confirm' }))
 
@@ -108,9 +143,16 @@ describe('ConfirmModal', () => {
   it('disables the close button and shows closing text while onCloseClick is pending', async () => {
     const user = userEvent.setup()
 
-    mockOnCloseClick.mockImplementation(() => new Promise((resolve) => setTimeout(resolve, 100)))
+    mockOnCloseClick.mockImplementation(
+      () => new Promise((resolve) => setTimeout(resolve, 100))
+    )
 
-    render(<ConfirmModal onCloseClick={mockOnCloseClick} onConfirmClick={mockOnConfirmClick} />)
+    render(
+      <ConfirmModal
+        onCloseClick={mockOnCloseClick}
+        onConfirmClick={mockOnConfirmClick}
+      />
+    )
 
     await user.click(screen.getByRole('button', { name: 'Close' }))
 

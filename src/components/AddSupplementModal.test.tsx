@@ -23,21 +23,31 @@ describe('AddSupplementModal', () => {
   })
 
   it('renders "New supplement" form correctly with default empty values when previousData is null', () => {
-    render(<AddSupplementModal handleClose={mockHandleClose} previousData={null} />)
+    render(
+      <AddSupplementModal handleClose={mockHandleClose} previousData={null} />
+    )
 
     const nameInputEl = screen.getByLabelText(/name/i)
     const brandInputEl = screen.getByLabelText(/brand/i)
     const morningBtn = screen.getByRole('button', { name: /morning/i })
     const afternoonBtn = screen.getByRole('button', { name: /afternoon/i })
     const eveningBtn = screen.getByRole('button', { name: /evening/i })
-    const beforeWorkoutBtn = screen.getByRole('button', { name: /before workout/i })
-    const duringWorkoutBtn = screen.getByRole('button', { name: /during workout/i })
-    const afterWorkoutBtn = screen.getByRole('button', { name: /after workout/i })
+    const beforeWorkoutBtn = screen.getByRole('button', {
+      name: /before workout/i
+    })
+    const duringWorkoutBtn = screen.getByRole('button', {
+      name: /during workout/i
+    })
+    const afterWorkoutBtn = screen.getByRole('button', {
+      name: /after workout/i
+    })
     const unitInputEl = screen.getByLabelText(/unit/i)
     const stockInputEl = screen.getByLabelText(/current stock/i)
     const dosageInputEl = screen.getByLabelText(/dosage per serving/i)
 
-    expect(screen.getByRole('heading', { name: /new supplement/i })).toBeVisible()
+    expect(
+      screen.getByRole('heading', { name: /new supplement/i })
+    ).toBeVisible()
     expect(screen.getByTestId('button-add-supplement-form-close')).toBeVisible()
 
     expect(nameInputEl).toHaveValue('')
@@ -52,25 +62,40 @@ describe('AddSupplementModal', () => {
     expect(stockInputEl).toHaveValue(null)
     expect(dosageInputEl).toHaveValue(null)
 
-    expect(screen.getByRole('button', { name: /add supplement/i })).toBeVisible()
+    expect(
+      screen.getByRole('button', { name: /add supplement/i })
+    ).toBeVisible()
   })
 
   it('renders "Edit supplement" form with previous data when it is provided', () => {
-    render(<AddSupplementModal handleClose={mockHandleClose} previousData={mockSupplement} />)
+    render(
+      <AddSupplementModal
+        handleClose={mockHandleClose}
+        previousData={mockSupplement}
+      />
+    )
 
     const nameInputEl = screen.getByLabelText(/name/i)
     const brandInputEl = screen.getByLabelText(/brand/i)
     const morningBtn = screen.getByRole('button', { name: /morning/i })
     const afternoonBtn = screen.getByRole('button', { name: /afternoon/i })
     const eveningBtn = screen.getByRole('button', { name: /evening/i })
-    const beforeWorkoutBtn = screen.getByRole('button', { name: /before workout/i })
-    const duringWorkoutBtn = screen.getByRole('button', { name: /during workout/i })
-    const afterWorkoutBtn = screen.getByRole('button', { name: /after workout/i })
+    const beforeWorkoutBtn = screen.getByRole('button', {
+      name: /before workout/i
+    })
+    const duringWorkoutBtn = screen.getByRole('button', {
+      name: /during workout/i
+    })
+    const afterWorkoutBtn = screen.getByRole('button', {
+      name: /after workout/i
+    })
     const unitInputEl = screen.getByLabelText(/unit/i)
     const stockInputEl = screen.getByLabelText(/current stock/i)
     const dosageInputEl = screen.getByLabelText(/dosage per serving/i)
 
-    expect(screen.getByRole('heading', { name: /edit supplement/i })).toBeVisible()
+    expect(
+      screen.getByRole('heading', { name: /edit supplement/i })
+    ).toBeVisible()
     expect(screen.getByTestId('button-add-supplement-form-close')).toBeVisible()
 
     expect(nameInputEl).toHaveValue(mockSupplement.name)
@@ -85,13 +110,17 @@ describe('AddSupplementModal', () => {
     expect(stockInputEl).toHaveValue(mockSupplement.currentStock)
     expect(dosageInputEl).toHaveValue(mockSupplement.dosagePerServing)
 
-    expect(screen.getByRole('button', { name: /edit supplement/i })).toBeVisible()
+    expect(
+      screen.getByRole('button', { name: /edit supplement/i })
+    ).toBeVisible()
   })
 
   it('calls handleClose when the X button is clicked', async () => {
     const user = userEvent.setup()
 
-    render(<AddSupplementModal handleClose={mockHandleClose} previousData={null} />)
+    render(
+      <AddSupplementModal handleClose={mockHandleClose} previousData={null} />
+    )
 
     const closeBtn = screen.getByTestId('button-add-supplement-form-close')
 
@@ -103,7 +132,9 @@ describe('AddSupplementModal', () => {
   it('calls handleClose when the modal backdrop is clicked', async () => {
     const user = userEvent.setup()
 
-    render(<AddSupplementModal handleClose={mockHandleClose} previousData={null} />)
+    render(
+      <AddSupplementModal handleClose={mockHandleClose} previousData={null} />
+    )
 
     const backdrop = screen.getByTestId('modal-backdrop')
 
@@ -125,7 +156,12 @@ describe('AddSupplementModal', () => {
   })
 
   it('displays an error message when submitting with a negative current stock', () => {
-    render(<AddSupplementModal handleClose={mockHandleClose} previousData={mockSupplement} />)
+    render(
+      <AddSupplementModal
+        handleClose={mockHandleClose}
+        previousData={mockSupplement}
+      />
+    )
 
     const stockInputEl = screen.getByLabelText(/current stock/i)
     const form = stockInputEl.closest('form')
@@ -138,7 +174,12 @@ describe('AddSupplementModal', () => {
   })
 
   it('displays an error message when submitting with dosage per serving equal to 0', () => {
-    render(<AddSupplementModal handleClose={mockHandleClose} previousData={mockSupplement} />)
+    render(
+      <AddSupplementModal
+        handleClose={mockHandleClose}
+        previousData={mockSupplement}
+      />
+    )
 
     const dosageInputEl = screen.getByLabelText(/dosage per serving/i)
     const form = dosageInputEl.closest('form')
@@ -147,13 +188,20 @@ describe('AddSupplementModal', () => {
     fireEvent.change(dosageInputEl, { target: { value: '0' } })
     if (form) fireEvent.submit(form)
 
-    expect(screen.getByText(/dosage per serving has to be greater than or equal 0/i)).toBeVisible()
+    expect(
+      screen.getByText(/dosage per serving has to be greater than or equal 0/i)
+    ).toBeVisible()
   })
 
   it('displays an error message when trying to submit with no time of day selected', async () => {
     const user = userEvent.setup()
 
-    render(<AddSupplementModal handleClose={mockHandleClose} previousData={mockSupplement} />)
+    render(
+      <AddSupplementModal
+        handleClose={mockHandleClose}
+        previousData={mockSupplement}
+      />
+    )
 
     const morningBtn = screen.getByRole('button', { name: /morning/i })
     const eveningBtn = screen.getByRole('button', { name: /evening/i })
@@ -162,13 +210,17 @@ describe('AddSupplementModal', () => {
     await user.click(eveningBtn)
     await user.click(screen.getByRole('button', { name: /edit supplement/i }))
 
-    expect(screen.getByText(/at least one time of the day has to be picked/i)).toBeVisible()
+    expect(
+      screen.getByText(/at least one time of the day has to be picked/i)
+    ).toBeVisible()
   })
 
   it('calls addSupplement API and closes modal with correct data when creating a new supplement', async () => {
     const user = userEvent.setup()
 
-    render(<AddSupplementModal handleClose={mockHandleClose} previousData={null} />)
+    render(
+      <AddSupplementModal handleClose={mockHandleClose} previousData={null} />
+    )
 
     const nameInputEl = screen.getByLabelText(/name/i)
     const brandInputEl = screen.getByLabelText(/brand/i)
@@ -198,7 +250,12 @@ describe('AddSupplementModal', () => {
 
     const mockSupplementWithId = { id: 123, ...mockSupplement }
 
-    render(<AddSupplementModal handleClose={mockHandleClose} previousData={mockSupplementWithId} />)
+    render(
+      <AddSupplementModal
+        handleClose={mockHandleClose}
+        previousData={mockSupplementWithId}
+      />
+    )
 
     const nameInputEl = screen.getByLabelText(/name/i)
 

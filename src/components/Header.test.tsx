@@ -12,7 +12,9 @@ describe('Header', () => {
       </MemoryRouter>
     )
 
-    expect(screen.getByRole('heading', { name: /supplement manager/i })).toBeVisible()
+    expect(
+      screen.getByRole('heading', { name: /supplement manager/i })
+    ).toBeVisible()
     expect(screen.getByRole('link', { name: /dashboard/i })).toBeVisible()
     expect(screen.getByRole('link', { name: /inventory/i })).toBeVisible()
     expect(screen.getByRole('link', { name: /history/i })).toBeVisible()
@@ -25,9 +27,18 @@ describe('Header', () => {
       </MemoryRouter>
     )
 
-    expect(screen.getByRole('link', { name: /dashboard/i })).toHaveAttribute('href', '/')
-    expect(screen.getByRole('link', { name: /inventory/i })).toHaveAttribute('href', '/inventory')
-    expect(screen.getByRole('link', { name: /history/i })).toHaveAttribute('href', '/history')
+    expect(screen.getByRole('link', { name: /dashboard/i })).toHaveAttribute(
+      'href',
+      '/'
+    )
+    expect(screen.getByRole('link', { name: /inventory/i })).toHaveAttribute(
+      'href',
+      '/inventory'
+    )
+    expect(screen.getByRole('link', { name: /history/i })).toHaveAttribute(
+      'href',
+      '/history'
+    )
   })
 
   it('should apply correct text styling based on the current path', () => {
@@ -91,7 +102,9 @@ describe('Header', () => {
     await user.click(screen.getByRole('button'))
 
     const mobileMenu = screen.getByTestId('mobile-menu')
-    const mobileHistoryLink = within(mobileMenu).getByRole('link', { name: /history/i })
+    const mobileHistoryLink = within(mobileMenu).getByRole('link', {
+      name: /history/i
+    })
 
     await user.click(mobileHistoryLink)
 
