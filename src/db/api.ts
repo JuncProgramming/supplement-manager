@@ -1,4 +1,4 @@
-import type { Supplement } from '@/types'
+import type { IntakeLog, Supplement, TimeOfDayType } from '@/types'
 import db from '@/db/db'
 
 export const addSupplement = async (supplement: Supplement) => {
@@ -30,6 +30,32 @@ export const updateSupplement = async (
     await db.supplements.update(supplementId, supplementData)
   } catch (error) {
     console.error('Failed to update supplement:', error)
+    throw error
+  }
+}
+
+// using Omit, because TS with Dexie complain about Partial
+export const addIntakeLog = async (supplementInfo: Omit<IntakeLog, 'id'>) => {
+  try {
+    await db.intakeLogs.add(supplementInfo)
+  } catch (error) {
+    console.error('Failed to add intake log:', error)
+    throw error
+  }
+}
+
+export const deleteIntakeLog = async (
+  supplementId: number,
+  date: string,
+  timeOfDay: TimeOfDayType
+) => {
+  try {
+    await db.intakeLogs
+      .where('[supplementId+date+timeOfDay]')
+      .equals([supplementId, date, timeOfDay])
+      .delete()
+  } catch (error) {
+    console.error('Failed to delete intake log:', error)
     throw error
   }
 }

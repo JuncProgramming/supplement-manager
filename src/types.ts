@@ -47,7 +47,8 @@ export type Supplement = {
 export type IntakeLog = {
   id?: number
   supplementId: number
-  date: Date
+  date: string
   amountTaken: number
   unit: UnitType
+  timeOfDay: TimeOfDayType
 }
