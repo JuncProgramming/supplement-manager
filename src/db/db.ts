@@ -8,7 +8,7 @@ const db = new Dexie('supplementDatabase') as Dexie & {
 
 db.version(1).stores({
   supplements: '++id, name, brand, stock',
-  intakeLogs: '++id, supplementId, date, [supplementId+date]'
+  intakeLogs: '++id, supplementId, date, [supplementId+date+timeOfDay]'
 })
 
 export default db
