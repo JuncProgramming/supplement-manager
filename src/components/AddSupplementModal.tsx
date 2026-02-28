@@ -46,17 +46,17 @@ const AddSupplementModal = ({
     const dosagePerServingValue = parseFloat(dosagePerServing)
 
     if (isNaN(currentStockValue) || currentStockValue < 0) {
-      setError('Current stock has to be greater than 0')
+      setError('Current stock must be 0 or greater')
       return
     }
 
     if (isNaN(dosagePerServingValue) || dosagePerServingValue <= 0) {
-      setError('Dosage per serving has to be greater than or equal 0')
+      setError('Dosage per serving must be greater than 0')
       return
     }
 
     if (timesOfDay.length === 0) {
-      setError('At least one time of the day has to be picked')
+      setError('At least one time of day must be selected')
       return
     }
 
@@ -81,7 +81,7 @@ const AddSupplementModal = ({
       handleClose()
     } catch (error) {
       console.log('Failed to save supplement:', error)
-      setError('An error has occurred while trying to save supplement')
+      setError('An error occurred while trying to save the supplement')
     } finally {
       setIsSubmitting(false)
     }
