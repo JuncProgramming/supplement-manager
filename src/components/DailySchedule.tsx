@@ -5,11 +5,11 @@ import { Fragment } from 'react/jsx-runtime'
 const DailySchedule = ({
   supplements,
   onCheckboxToggle,
-  checkedBoxes
+  checkedKeys
 }: {
   supplements: Supplement[]
   onCheckboxToggle: (supplement: Supplement, timeOfDay: TimeOfDayType) => void
-  checkedBoxes: Record<string, boolean>
+  checkedKeys: Set<string>
 }) => {
   return (
     <div className="grid w-full grid-cols-[2fr_repeat(6,1fr)] rounded-lg border-2 border-gray-200 bg-white px-4 py-2 pb-4 shadow-md">
@@ -38,10 +38,7 @@ const DailySchedule = ({
               >
                 <input
                   onChange={() => onCheckboxToggle(supplement, timeOfDay)}
-                  checked={
-                    checkedBoxes[`${supplement.id}-${timeOfDay}`] ??
-                    false /* setting false as a fallback, because react complains with an 'uncontrolled input' error */
-                  }
+                  checked={checkedKeys.has(`${supplement.id}-${timeOfDay}`)}
                   disabled={!isScheduled}
                   className="cursor-pointer rounded transition-colors focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 disabled:opacity-30"
                   type="checkbox"

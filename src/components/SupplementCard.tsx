@@ -14,7 +14,7 @@ const SupplementCard = ({
   const servingsLeft = supplement.currentStock / supplement.dosagePerServing
   const isStockLow = servingsLeft < 10
   return (
-    <li className="flex flex-col justify-between rounded-lg border-2 border-gray-200 bg-white p-4 shadow-md transition-colors hover:border-blue-600 hover:shadow-blue-100">
+    <li className="flex flex-col justify-between rounded-lg border-2 border-gray-200 bg-white p-4 shadow-md transition-colors hover:border-gray-300">
       <div className="mb-4 flex items-start justify-between gap-6">
         <div className="min-w-0 flex-1">
           <p className="line-clamp-2 text-xs font-medium tracking-wide wrap-break-word text-gray-600 uppercase">
