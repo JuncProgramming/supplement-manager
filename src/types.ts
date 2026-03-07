@@ -77,5 +77,5 @@ export type HistoryEntry = {
 
 export type DayGroup = {
   date: string
-  logs: HistoryEntry[]
+  entries: HistoryEntry[]
 }

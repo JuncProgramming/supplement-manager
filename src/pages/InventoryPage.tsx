@@ -1,6 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import db from '@/db/db'
-import AddSupplementModal from '@/components/AddSupplementModal'
+import SupplementFormModal from '@/components/SupplementFormModal'
 import { useState } from 'react'
 import SupplementCard from '@/components/SupplementCard'
 import { deleteSupplement } from '@/db/api'
@@ -90,7 +90,7 @@ const InventoryPage = () => {
       </div>
 
       {isSupplementModalOpen && (
-        <AddSupplementModal
+        <SupplementFormModal
           handleClose={() => setIsSupplementModalOpen(false)}
           previousData={supplementToEdit}
         />

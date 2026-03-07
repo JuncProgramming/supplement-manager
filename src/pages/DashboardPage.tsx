@@ -1,5 +1,5 @@
 import { format } from 'date-fns/fp'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import db from '@/db/db'
 import { Package } from 'lucide-react'
@@ -11,37 +11,42 @@ import { useIntakeLog } from '@/hooks/useIntakeLog'
 import DailySchedule from '@/components/DailySchedule'
 
 const DashboardPage = () => {
-  const [checkedBoxes, setCheckedBoxes] = useState<Record<string, boolean>>({})
-
   const today = format('EEEE, d MMMM')(new Date())
   const dbDate = new Date().toISOString().split('T')[0]
 
   const todaysLogs = useIntakeLog(dbDate)
+  const supplements = useLiveQuery(() => db.supplements.toArray())
+
+  const checkedKeys = new Set(
+    todaysLogs?.map((log) => `${log.supplementId}-${log.timeOfDay}`) ?? []
+  )
 
   useEffect(() => {
-    if (todaysLogs) {
-      const newCheckedState: Record<string, boolean> = {}
+    if (!supplements) return
 
-      todaysLogs.forEach((log) => {
-        const key = `${log.supplementId}-${log.timeOfDay}`
-        newCheckedState[key] = true
+    const createSnapshot = async () => {
+      await db.dailySnapshots.put({
+        date: dbDate,
+        supplements: supplements.map((supplement) => ({
+          supplementId: supplement.id!,
+          name: supplement.name,
+          brand: supplement.brand ?? '',
+          dosagePerServing: supplement.dosagePerServing,
+          unit: supplement.unit,
+          timesOfDay: supplement.timesOfDay
+        }))
       })
-
-      setCheckedBoxes(newCheckedState)
     }
-  }, [todaysLogs])
 
-  const supplements = useLiveQuery(() => db.supplements.toArray())
+    createSnapshot()
+  }, [supplements, dbDate])
 
   const handleCheck = async (
     supplement: Supplement,
     timeOfDay: TimeOfDayType
   ) => {
     const key = `${supplement.id}-${timeOfDay}`
-
-    const isCurrentlyChecked = checkedBoxes[key] ?? false
-
-    setCheckedBoxes((prev) => ({ ...prev, [key]: !isCurrentlyChecked }))
+    const isCurrentlyChecked = checkedKeys.has(key)
 
     try {
       if (!isCurrentlyChecked) {
@@ -57,7 +62,6 @@ const DashboardPage = () => {
       }
     } catch (error) {
       console.error('Failed to add or remove intake log:', error)
-      setCheckedBoxes((prev) => ({ ...prev, [key]: isCurrentlyChecked }))
     }
   }
 
@@ -75,18 +79,8 @@ const DashboardPage = () => {
     (sum, supplement) => sum + supplement.timesOfDay.length,
     0
   )
-
-  const validKeys = new Set(
-    supplements.flatMap((supplement) =>
-      supplement.timesOfDay.map((timeOfDay) => `${supplement.id}-${timeOfDay}`)
-    )
-  )
-
-  const totalChecked = Object.entries(checkedBoxes).filter(
-    // destructure the key and checked from the created array from the object.
-    ([key, checked]) => checked && validKeys.has(key)
-  ).length
-  const progress = totalScheduled > 0 ? totalChecked / totalScheduled : 0
+  const progress =
+    totalScheduled > 0 ? (todaysLogs?.length ?? 0) / totalScheduled : 0
 
   return (
     <div className="mt-4 flex flex-col space-y-6 sm:mt-6 md:mt-8">
@@ -126,7 +120,7 @@ const DashboardPage = () => {
       ) : (
         <DailySchedule
           supplements={supplements}
-          checkedBoxes={checkedBoxes}
+          checkedKeys={checkedKeys}
           onCheckboxToggle={(supplement, timeOfDay) =>
             handleCheck(supplement, timeOfDay)
           }

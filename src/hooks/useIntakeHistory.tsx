@@ -36,7 +36,7 @@ export const useIntakeHistory = (): DayGroup[] | undefined => {
         }
       }
 
-      return { date: snapshot.date, logs: entries }
+      return { date: snapshot.date, entries }
     })
   })
 }
