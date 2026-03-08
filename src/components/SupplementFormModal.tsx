@@ -5,7 +5,7 @@ import type { UnitType, TimeOfDayType } from '@/types'
 import { addSupplement, updateSupplement } from '@/db/api'
 import type { Supplement } from '@/types'
 
-const AddSupplementModal = ({
+const SupplementFormModal = ({
   handleClose,
   previousData
 }: {
@@ -248,4 +248,4 @@ const AddSupplementModal = ({
   )
 }
 
-export default AddSupplementModal
+export default SupplementFormModal

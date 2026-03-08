@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import AddSupplementModal from '@/components/AddSupplementModal'
+import SupplementFormModal from '@/components/SupplementFormModal'
 import type { Supplement } from '@/types'
 import { UNITS, TIMES_OF_DAY } from '@/types'
 import userEvent from '@testing-library/user-event'
@@ -7,7 +7,7 @@ import { addSupplement, updateSupplement } from '@/db/api'
 
 vi.mock('@/db/api')
 
-describe('AddSupplementModal', () => {
+describe('SupplementFormModal', () => {
   const mockHandleClose = vi.fn()
   const mockSupplement: Supplement = {
     name: 'D3 + K2 drops',
@@ -24,7 +24,7 @@ describe('AddSupplementModal', () => {
 
   it('renders "New supplement" form correctly with default empty values when previousData is null', () => {
     render(
-      <AddSupplementModal handleClose={mockHandleClose} previousData={null} />
+      <SupplementFormModal handleClose={mockHandleClose} previousData={null} />
     )
 
     const nameInputEl = screen.getByLabelText(/name/i)
@@ -69,7 +69,7 @@ describe('AddSupplementModal', () => {
 
   it('renders "Edit supplement" form with previous data when it is provided', () => {
     render(
-      <AddSupplementModal
+      <SupplementFormModal
         handleClose={mockHandleClose}
         previousData={mockSupplement}
       />
@@ -119,7 +119,7 @@ describe('AddSupplementModal', () => {
     const user = userEvent.setup()
 
     render(
-      <AddSupplementModal handleClose={mockHandleClose} previousData={null} />
+      <SupplementFormModal handleClose={mockHandleClose} previousData={null} />
     )
 
     const closeBtn = screen.getByTestId('button-add-supplement-form-close')
@@ -133,7 +133,7 @@ describe('AddSupplementModal', () => {
     const user = userEvent.setup()
 
     render(
-      <AddSupplementModal handleClose={mockHandleClose} previousData={null} />
+      <SupplementFormModal handleClose={mockHandleClose} previousData={null} />
     )
 
     const backdrop = screen.getByTestId('modal-backdrop')
@@ -145,7 +145,7 @@ describe('AddSupplementModal', () => {
 
   it('locks body scrolling on mount and restores it on unmount', () => {
     const { unmount } = render(
-      <AddSupplementModal handleClose={mockHandleClose} previousData={null} />
+      <SupplementFormModal handleClose={mockHandleClose} previousData={null} />
     )
 
     expect(document.body.style.overflow).toBe('hidden')
@@ -157,7 +157,7 @@ describe('AddSupplementModal', () => {
 
   it('displays an error message when submitting with a negative current stock', () => {
     render(
-      <AddSupplementModal
+      <SupplementFormModal
         handleClose={mockHandleClose}
         previousData={mockSupplement}
       />
@@ -170,12 +170,12 @@ describe('AddSupplementModal', () => {
     fireEvent.change(stockInputEl, { target: { value: '-10' } })
     if (form) fireEvent.submit(form)
 
-    expect(screen.getByText(/stock has to be greater than 0/i)).toBeVisible()
+    expect(screen.getByText(/stock must be 0 or greater/i)).toBeVisible()
   })
 
   it('displays an error message when submitting with dosage per serving equal to 0', () => {
     render(
-      <AddSupplementModal
+      <SupplementFormModal
         handleClose={mockHandleClose}
         previousData={mockSupplement}
       />
@@ -189,7 +189,7 @@ describe('AddSupplementModal', () => {
     if (form) fireEvent.submit(form)
 
     expect(
-      screen.getByText(/dosage per serving has to be greater than or equal 0/i)
+      screen.getByText(/dosage per serving must be greater than 0/i)
     ).toBeVisible()
   })
 
@@ -197,7 +197,7 @@ describe('AddSupplementModal', () => {
     const user = userEvent.setup()
 
     render(
-      <AddSupplementModal
+      <SupplementFormModal
         handleClose={mockHandleClose}
         previousData={mockSupplement}
       />
@@ -211,7 +211,7 @@ describe('AddSupplementModal', () => {
     await user.click(screen.getByRole('button', { name: /edit supplement/i }))
 
     expect(
-      screen.getByText(/at least one time of the day has to be picked/i)
+      screen.getByText(/at least one time of day must be selected/i)
     ).toBeVisible()
   })
 
@@ -219,7 +219,7 @@ describe('AddSupplementModal', () => {
     const user = userEvent.setup()
 
     render(
-      <AddSupplementModal handleClose={mockHandleClose} previousData={null} />
+      <SupplementFormModal handleClose={mockHandleClose} previousData={null} />
     )
 
     const nameInputEl = screen.getByLabelText(/name/i)
@@ -251,7 +251,7 @@ describe('AddSupplementModal', () => {
     const mockSupplementWithId = { id: 123, ...mockSupplement }
 
     render(
-      <AddSupplementModal
+      <SupplementFormModal
         handleClose={mockHandleClose}
         previousData={mockSupplementWithId}
       />
