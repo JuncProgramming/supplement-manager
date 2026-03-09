@@ -52,3 +52,30 @@ export type IntakeLog = {
   unit: UnitType
   timeOfDay: TimeOfDayType
 }
+
+export type DailySnapshot = {
+  date: string
+  supplements: {
+    supplementId: number
+    name: string
+    brand: string
+    dosagePerServing: number
+    unit: UnitType
+    timesOfDay: TimeOfDayType[]
+  }[]
+}
+
+export type HistoryEntry = {
+  supplementId: number
+  name: string
+  brand: string
+  amountTaken: number
+  unit: UnitType
+  timeOfDay: TimeOfDayType
+  taken: boolean
+}
+
+export type DayGroup = {
+  date: string
+  logs: HistoryEntry[]
+}
