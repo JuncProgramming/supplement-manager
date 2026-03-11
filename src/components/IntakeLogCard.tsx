@@ -5,13 +5,13 @@ import { TIME_OF_DAY_ICONS } from '@/constants/timeOfDayIcons'
 
 const IntakeLogCard = ({
   date,
-  logs
+  entries
 }: {
   date: string
-  logs: HistoryEntry[]
+  entries: HistoryEntry[]
 }) => {
-  const takenCount = logs.filter((log) => log.taken).length
-  const total = logs.length
+  const takenCount = entries.filter((log) => log.taken).length
+  const total = entries.length
   const percent = total > 0 ? Math.round((takenCount / total) * 100) : 0
 
   return (
@@ -24,6 +24,7 @@ const IntakeLogCard = ({
         <div className="flex items-center gap-3">
           <div className="flex-start flex h-2 w-32 overflow-hidden rounded-full bg-blue-100 font-sans text-xs font-medium">
             <div
+              data-testid="progress-bar"
               style={{ width: `${percent}%` }}
               className={`flex h-full items-center justify-center overflow-hidden rounded-full bg-blue-600 break-all text-white transition-all`}
             ></div>
@@ -34,7 +35,7 @@ const IntakeLogCard = ({
         </div>
       </div>
       <ul className="divide-y divide-gray-100">
-        {logs.map((log) => (
+        {entries.map((log) => (
           <li
             key={`${log.supplementId}-${log.timeOfDay}`}
             className="flex items-center gap-4 px-5 py-3"
@@ -46,7 +47,11 @@ const IntakeLogCard = ({
                   : 'bg-red-50 text-red-400'
               }`}
             >
-              {log.taken ? <Check size={14} /> : <X size={14} />}
+              {log.taken ? (
+                <Check size={14} data-testid="icon-check" />
+              ) : (
+                <X size={14} data-testid="icon-close" />
+              )}
             </div>
             <div className="min-w-0 flex-1">
               <p className="font-medium text-gray-800">{log.name}</p>
