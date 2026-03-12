@@ -3,6 +3,7 @@ import { RootLayout } from '@/layouts/RootLayout'
 import DashboardPage from '@/pages/DashboardPage'
 import ErrorPage from '@/pages/ErrorPage'
 import InventoryPage from '@/pages/InventoryPage'
+import HistoryPage from '@/pages/HistoryPage'
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ export const router = createBrowserRouter([
       {
         path: '/inventory',
         element: <InventoryPage />
+      },
+      {
+        path: '/history',
+        element: <HistoryPage />
       }
     ]
   }
