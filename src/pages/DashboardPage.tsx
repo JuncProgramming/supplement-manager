@@ -79,27 +79,45 @@ const DashboardPage = () => {
     (sum, supplement) => sum + supplement.timesOfDay.length,
     0
   )
-  const progress =
-    totalScheduled > 0 ? (todaysLogs?.length ?? 0) / totalScheduled : 0
+  const progressPercent =
+    totalScheduled > 0
+      ? Math.round(((todaysLogs?.length ?? 0) / totalScheduled) * 100)
+      : 0
+
+  const remainingDoses = totalScheduled - (todaysLogs?.length ?? 0)
 
   return (
     <div className="mt-4 flex flex-col space-y-6 sm:mt-6 md:mt-8">
-      <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-2xl font-bold text-blue-800 sm:text-3xl">
-          {today}
-        </h1>
-        <div className="w-full">
-          <p className="mb-2 text-lg font-semibold text-gray-800">
-            Today's progress:
-          </p>
-          <div className="flex-start flex h-4 w-full overflow-hidden rounded-full bg-blue-100 font-sans text-xs font-medium">
-            <div
-              style={{ width: `${progress * 100}%` }}
-              className={`flex h-full items-center justify-center overflow-hidden rounded-full bg-blue-800 break-all text-white transition-all`}
-            ></div>
+      <h1 className="text-2xl font-bold text-gray-800 sm:text-3xl">{today}</h1>
+
+      {supplements.length > 0 && (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="rounded-lg border-2 border-gray-200 bg-white p-4 shadow-sm">
+            <p className="text-sm text-gray-500">Today's Progress</p>
+            <p className="text-2xl font-bold text-blue-800">
+              {progressPercent}%
+            </p>
+            <div className="mt-2 flex h-2.5 overflow-hidden rounded-full bg-blue-100">
+              <div
+                style={{ width: `${progressPercent}%` }}
+                className="h-full rounded-full bg-blue-600 transition-all duration-500"
+              ></div>
+            </div>
+          </div>
+          <div className="rounded-lg border-2 border-gray-200 bg-white p-4 shadow-sm">
+            <p className="text-sm text-gray-500">Remaining Today</p>
+            <p className="text-2xl font-bold text-gray-800">{remainingDoses}</p>
+            <p className="text-xs text-gray-400">doses left</p>
+          </div>
+          <div className="rounded-lg border-2 border-gray-200 bg-white p-4 shadow-sm">
+            <p className="text-sm text-gray-500">Current Stack</p>
+            <p className="text-2xl font-bold text-gray-800">
+              {supplements.length}
+            </p>
+            <p className="text-xs text-gray-400">supplements in your routine</p>
           </div>
         </div>
-      </div>
+      )}
       {supplements.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-200 px-4 py-16 text-center text-balance">
           <Package size={36} className="mb-4 text-blue-600" />

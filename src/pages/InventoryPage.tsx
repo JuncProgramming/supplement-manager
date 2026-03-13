@@ -53,7 +53,7 @@ const InventoryPage = () => {
       <div className="mt-4 flex flex-col sm:mt-6 md:mt-8">
         <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
           <h1 className="text-2xl font-bold text-gray-800 sm:text-3xl">
-            Supplement inventory
+            Supplement Inventory
           </h1>
           <button
             onClick={handleAdd}
