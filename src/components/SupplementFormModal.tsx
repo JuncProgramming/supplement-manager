@@ -101,7 +101,7 @@ const SupplementFormModal = ({
           </h1>
           <button
             onClick={handleClose}
-            className="cursor-pointer rounded-lg border-2 border-gray-200 p-2 text-blue-600 hover:bg-gray-50"
+            className="cursor-pointer rounded-lg border-2 border-gray-200 p-2 text-blue-600 hover:bg-gray-50 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
             data-testid="button-add-supplement-form-close"
           >
             <X className="h-6 w-6 shrink-0" data-testid="icon-close"></X>
@@ -154,7 +154,7 @@ const SupplementFormModal = ({
                           : [...prev, time]
                       )
                     }}
-                    className={`flex cursor-pointer items-center justify-center rounded-md border-2 font-medium text-gray-800 transition-colors ${isSelected ? 'border-blue-600 bg-gray-50 hover:border-blue-800 hover:bg-gray-100' : 'border-gray-200 hover:border-blue-600 hover:bg-gray-50'} h-14 px-3 py-1 text-center`}
+                    className={`flex cursor-pointer items-center justify-center rounded-md border-2 font-medium text-gray-800 transition-colors focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 ${isSelected ? 'border-blue-600 bg-gray-50 hover:border-blue-800 hover:bg-gray-100' : 'border-gray-200 hover:border-blue-600 hover:bg-gray-50'} h-14 px-3 py-1 text-center`}
                   >
                     {TIME_OF_DAY_LABELS[time]}
                   </button>
@@ -232,7 +232,7 @@ const SupplementFormModal = ({
           )}
           <button
             disabled={isSubmitting}
-            className="min-w-full cursor-pointer rounded-md bg-blue-600 p-2 font-semibold text-white hover:bg-blue-800 disabled:cursor-not-allowed"
+            className="min-w-full cursor-pointer rounded-md bg-blue-600 p-2 font-semibold text-white hover:bg-blue-800 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 disabled:cursor-not-allowed"
           >
             {isSubmitting
               ? isEditMode

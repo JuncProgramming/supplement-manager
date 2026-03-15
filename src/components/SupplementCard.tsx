@@ -27,14 +27,14 @@ const SupplementCard = ({
         <div className="flex shrink-0 gap-6 sm:gap-4">
           <button
             onClick={onTrashClick}
-            className="cursor-pointer text-gray-400 transition-colors hover:text-red-400"
+            className="cursor-pointer text-gray-400 transition-colors hover:text-red-400 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
             data-testid="button-trash"
           >
             <Trash2 size={20} />
           </button>
           <button
             onClick={onPencilClick}
-            className="cursor-pointer text-gray-400 transition-colors hover:text-gray-600"
+            className="cursor-pointer text-gray-400 transition-colors hover:text-gray-600 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
             data-testid="button-pencil"
           >
             <Pencil size={20} />

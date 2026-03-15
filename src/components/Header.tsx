@@ -17,7 +17,7 @@ const Header = () => {
       <div className="flex h-16 items-center justify-between px-4">
         <Link
           to="/"
-          className="font-semibold text-blue-600 transition-colors hover:text-blue-800"
+          className="font-semibold text-blue-600 transition-colors hover:text-blue-800 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
         >
           <h1 className="flex flex-row items-center gap-1">
             <PillBottle className="shrink-0 rotate-6" /> Supplement Manager
@@ -28,7 +28,7 @@ const Header = () => {
           <NavLink
             to="/"
             className={({ isActive }) =>
-              `font-semibold transition-colors ${
+              `font-semibold transition-colors focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 ${
                 isActive
                   ? 'text-blue-800 hover:text-blue-600'
                   : 'text-blue-600 hover:text-blue-800'
@@ -41,7 +41,7 @@ const Header = () => {
           <NavLink
             to="/inventory"
             className={({ isActive }) =>
-              `font-semibold transition-colors ${
+              `font-semibold transition-colors focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 ${
                 isActive
                   ? 'text-blue-800 hover:text-blue-600'
                   : 'text-blue-600 hover:text-blue-800'
@@ -54,7 +54,7 @@ const Header = () => {
           <NavLink
             to="/history"
             className={({ isActive }) =>
-              `font-semibold transition-colors ${
+              `font-semibold transition-colors focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 ${
                 isActive
                   ? 'text-blue-800 hover:text-blue-600'
                   : 'text-blue-600 hover:text-blue-800'
@@ -66,7 +66,7 @@ const Header = () => {
         </nav>
 
         <button
-          className="cursor-pointer rounded-lg border-2 border-gray-200 p-2 text-blue-600 hover:bg-gray-50 md:hidden"
+          className="cursor-pointer rounded-lg border-2 border-gray-200 p-2 text-blue-600 hover:bg-gray-50 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 md:hidden"
           data-testid="button-mobile-menu-toggle"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
@@ -88,7 +88,7 @@ const Header = () => {
               onClick={() => setIsMobileMenuOpen(false)}
               to="/"
               className={({ isActive }) =>
-                `flex gap-2 font-semibold transition-colors ${
+                `flex gap-2 font-semibold transition-colors focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 ${
                   isActive
                     ? 'text-blue-800 hover:text-blue-600'
                     : 'text-blue-600 hover:text-blue-800'
@@ -103,7 +103,7 @@ const Header = () => {
               onClick={() => setIsMobileMenuOpen(false)}
               to="/inventory"
               className={({ isActive }) =>
-                `flex gap-2 font-semibold transition-colors ${
+                `flex gap-2 font-semibold transition-colors focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 ${
                   isActive
                     ? 'text-blue-800 hover:text-blue-600'
                     : 'text-blue-600 hover:text-blue-800'
@@ -118,7 +118,7 @@ const Header = () => {
               onClick={() => setIsMobileMenuOpen(false)}
               to="/history"
               className={({ isActive }) =>
-                `flex gap-2 font-semibold transition-colors ${
+                `flex gap-2 font-semibold transition-colors focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 ${
                   isActive
                     ? 'text-blue-800 hover:text-blue-600'
                     : 'text-blue-600 hover:text-blue-800'
