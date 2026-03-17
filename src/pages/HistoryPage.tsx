@@ -8,18 +8,45 @@ import {
 import { NavLink } from 'react-router-dom'
 import { useIntakeHistory } from '@/hooks/useIntakeHistory'
 import IntakeLogCard from '@/components/IntakeLogCard'
-import { useState } from 'react'
-import { TIME_OF_DAY_LABELS, TIMES_OF_DAY, type TimeOfDayType } from '@/types'
+import { useEffect, useRef, useState } from 'react'
+import {
+  FILTER_STATUS,
+  FILTER_STATUS_LABELS,
+  TIME_OF_DAY_LABELS,
+  TIMES_OF_DAY,
+  type FilterStatusType,
+  type TimeOfDayType
+} from '@/types'
 import { TIME_OF_DAY_ICONS } from '@/constants/timeOfDayIcons'
 
 const HistoryPage = () => {
-  const [selectedStatus, setSelectedStatus] = useState<
-    'all' | 'taken' | 'missed'
-  >('all')
+  const [selectedStatus, setSelectedStatus] = useState<FilterStatusType>(
+    FILTER_STATUS.ALL
+  )
   const [selectedTimesOfDay, setSelectedTimesOfDay] = useState<
     Set<TimeOfDayType>
   >(new Set(Object.values(TIMES_OF_DAY)))
   const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const filterDropdownRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!isFilterOpen) return
+
+    const handleClickOutside = (event: PointerEvent) => {
+      if (
+        filterDropdownRef.current &&
+        !filterDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsFilterOpen(false)
+      }
+    }
+
+    document.addEventListener('pointerdown', handleClickOutside)
+    return () => {
+      document.removeEventListener('pointerdown', handleClickOutside)
+    }
+  }, [isFilterOpen])
+
   const history = useIntakeHistory()
   const filteredHistory = history
     ? history
@@ -86,7 +113,7 @@ const HistoryPage = () => {
         <h1 className="text-2xl font-bold text-gray-800 sm:text-3xl">
           Intake History
         </h1>
-        <div className="relative">
+        <div ref={filterDropdownRef} className="relative">
           <button
             onClick={() => setIsFilterOpen((prev) => !prev)}
             className={`flex cursor-pointer items-center gap-2 bg-gray-100 px-4 py-2 font-medium text-gray-800 transition-colors hover:bg-gray-200 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 sm:w-auto ${
@@ -106,37 +133,21 @@ const HistoryPage = () => {
                 <h3 className="mb-1 text-xs font-semibold text-gray-500 uppercase">
                   Status
                 </h3>
-                <label className="flex cursor-pointer items-center gap-2 rounded-lg p-2 text-sm font-semibold text-gray-700 hover:bg-gray-200">
-                  <input
-                    type="radio"
-                    checked={selectedStatus === 'all'}
-                    onChange={() => setSelectedStatus('all')}
-                    name="status"
-                    className="relative flex h-4 w-4 cursor-pointer appearance-none items-center justify-center rounded-full border-2 border-gray-300 bg-white transition-colors duration-200 after:absolute after:h-1.5 after:w-1.5 after:scale-0 after:rounded-full after:bg-white after:transition-transform after:duration-200 checked:border-blue-600 checked:bg-blue-600 checked:after:scale-100 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
-                    defaultChecked
-                  />
-                  All supplements
-                </label>
-                <label className="flex cursor-pointer items-center gap-2 rounded-lg p-2 text-sm font-semibold text-gray-700 hover:bg-gray-200">
-                  <input
-                    type="radio"
-                    checked={selectedStatus === 'taken'}
-                    onChange={() => setSelectedStatus('taken')}
-                    name="status"
-                    className="relative flex h-4 w-4 cursor-pointer appearance-none items-center justify-center rounded-full border-2 border-gray-300 bg-white transition-colors duration-200 after:absolute after:h-1.5 after:w-1.5 after:scale-0 after:rounded-full after:bg-white after:transition-transform after:duration-200 checked:border-blue-600 checked:bg-blue-600 checked:after:scale-100 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
-                  />
-                  Only taken
-                </label>
-                <label className="flex cursor-pointer items-center gap-2 rounded-lg p-2 text-sm font-semibold text-gray-700 hover:bg-gray-200">
-                  <input
-                    type="radio"
-                    checked={selectedStatus === 'missed'}
-                    onChange={() => setSelectedStatus('missed')}
-                    name="status"
-                    className="relative flex h-4 w-4 cursor-pointer appearance-none items-center justify-center rounded-full border-2 border-gray-300 bg-white transition-colors duration-200 after:absolute after:h-1.5 after:w-1.5 after:scale-0 after:rounded-full after:bg-white after:transition-transform after:duration-200 checked:border-blue-600 checked:bg-blue-600 checked:after:scale-100 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
-                  />
-                  Only missed
-                </label>
+                {Object.values(FILTER_STATUS).map((status) => (
+                  <label
+                    key={status}
+                    className="flex cursor-pointer items-center gap-2 rounded-lg p-2 text-sm font-semibold text-gray-700 hover:bg-gray-200"
+                  >
+                    <input
+                      type="radio"
+                      checked={selectedStatus === status}
+                      onChange={() => setSelectedStatus(status)}
+                      name="status"
+                      className="relative flex h-4 w-4 cursor-pointer appearance-none items-center justify-center rounded-full border-2 border-gray-300 bg-white transition-colors duration-200 after:absolute after:h-1.5 after:w-1.5 after:scale-0 after:rounded-full after:bg-white after:transition-transform after:duration-200 checked:border-blue-600 checked:bg-blue-600 checked:after:scale-100 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+                    />
+                    {FILTER_STATUS_LABELS[status]}
+                  </label>
+                ))}
               </div>
               <div className="mb-3">
                 <h3 className="mb-1 text-xs font-semibold text-gray-500 uppercase">

@@ -21,7 +21,7 @@ export const TIMES_OF_DAY = {
   BEFORE_WORKOUT: 'before_workout',
   DURING_WORKOUT: 'during_workout',
   AFTER_WORKOUT: 'after_workout'
-}
+} as const
 
 export type TimeOfDayType = (typeof TIMES_OF_DAY)[keyof typeof TIMES_OF_DAY]
 
@@ -32,6 +32,21 @@ export const TIME_OF_DAY_LABELS: Record<TimeOfDayType, string> = {
   [TIMES_OF_DAY.BEFORE_WORKOUT]: 'Before workout',
   [TIMES_OF_DAY.DURING_WORKOUT]: 'During workout',
   [TIMES_OF_DAY.AFTER_WORKOUT]: 'After workout'
+}
+
+export const FILTER_STATUS = {
+  ALL: 'all',
+  TAKEN: 'taken',
+  MISSED: 'missed'
+} as const
+
+export type FilterStatusType =
+  (typeof FILTER_STATUS)[keyof typeof FILTER_STATUS]
+
+export const FILTER_STATUS_LABELS: Record<FilterStatusType, string> = {
+  [FILTER_STATUS.ALL]: 'All supplements',
+  [FILTER_STATUS.TAKEN]: 'Only taken',
+  [FILTER_STATUS.MISSED]: 'Only missed'
 }
 
 export type Supplement = {
@@ -58,7 +73,7 @@ export type DailySnapshot = {
   supplements: {
     supplementId: number
     name: string
-    brand: string
+    brand?: string
     dosagePerServing: number
     unit: UnitType
     timesOfDay: TimeOfDayType[]
@@ -68,7 +83,7 @@ export type DailySnapshot = {
 export type HistoryEntry = {
   supplementId: number
   name: string
-  brand: string
+  brand?: string
   amountTaken: number
   unit: UnitType
   timeOfDay: TimeOfDayType
