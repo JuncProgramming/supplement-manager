@@ -53,7 +53,8 @@ const DailySchedule = ({
                       <input
                         onChange={() => onCheckboxToggle(supplement, timeOfDay)}
                         checked={isChecked}
-                        className={`h-4 w-4 cursor-pointer rounded border-2 transition-colors focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 ${
+                        aria-label={`${supplement.name} - ${TIME_OF_DAY_LABELS[timeOfDay]}`}
+                        className={`h-4 w-4 cursor-pointer rounded border-2 transition-colors duration-200 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 ${
                           isChecked
                             ? 'border-blue-600 bg-blue-600 text-white'
                             : 'border-gray-300'
