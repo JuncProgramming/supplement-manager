@@ -11,8 +11,10 @@ import { useIntakeLog } from '@/hooks/useIntakeLog'
 import DailySchedule from '@/components/DailySchedule'
 
 const DashboardPage = () => {
-  const today = format('EEEE, d MMMM')(new Date())
-  const dbDate = new Date().toISOString().split('T')[0]
+  // deriving both dates from now, so they don't diverge
+  const now = new Date()
+  const today = format('EEEE, d MMMM')(now)
+  const dbDate = format('yyyy-MM-dd')(now)
 
   const todaysLogs = useIntakeLog(dbDate)
   const supplements = useLiveQuery(() => db.supplements.toArray())
@@ -30,7 +32,7 @@ const DashboardPage = () => {
         supplements: supplements.map((supplement) => ({
           supplementId: supplement.id!,
           name: supplement.name,
-          brand: supplement.brand ?? '',
+          brand: supplement.brand || undefined,
           dosagePerServing: supplement.dosagePerServing,
           unit: supplement.unit,
           timesOfDay: supplement.timesOfDay
@@ -84,7 +86,7 @@ const DashboardPage = () => {
       ? Math.round(((todaysLogs?.length ?? 0) / totalScheduled) * 100)
       : 0
 
-  const remainingDoses = totalScheduled - (todaysLogs?.length ?? 0)
+  const remainingDoses = Math.max(totalScheduled - (todaysLogs?.length ?? 0), 0)
 
   return (
     <div className="mt-4 flex flex-col space-y-6 sm:mt-6 md:mt-8">

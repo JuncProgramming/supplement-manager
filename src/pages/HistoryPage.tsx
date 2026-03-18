@@ -229,7 +229,7 @@ const HistoryPage = () => {
             Head over to your{' '}
             <NavLink
               className="font-semibold text-blue-600 hover:underline"
-              to="/dashboard"
+              to="/"
             >
               dashboard
             </NavLink>{' '}

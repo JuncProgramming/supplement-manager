@@ -80,7 +80,7 @@ const SupplementFormModal = ({
 
       handleClose()
     } catch (error) {
-      console.log('Failed to save supplement:', error)
+      console.error('Failed to save supplement:', error)
       setError('An error occurred while trying to save the supplement')
     } finally {
       setIsSubmitting(false)
@@ -232,7 +232,7 @@ const SupplementFormModal = ({
           )}
           <button
             disabled={isSubmitting}
-            className="min-w-full cursor-pointer rounded-md bg-blue-600 p-2 font-semibold text-white hover:bg-blue-800 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 disabled:cursor-not-allowed"
+            className="min-w-full cursor-pointer rounded-md bg-blue-600 p-2 px-4 font-semibold text-white hover:bg-blue-700 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 disabled:cursor-not-allowed"
           >
             {isSubmitting
               ? isEditMode

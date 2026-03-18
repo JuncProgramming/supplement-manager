@@ -69,14 +69,14 @@ const ConfirmModal = ({
           <button
             onClick={handleClose}
             disabled={isClosing}
-            className="bg-white-600 cursor-pointer rounded-md border-2 border-gray-200 p-2 px-4 font-semibold text-blue-600 hover:bg-gray-50 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 disabled:cursor-not-allowed"
+            className="bg-white-600 cursor-pointer rounded-md border-2 border-gray-200 p-2 px-4 font-semibold text-blue-600 transition-colors duration-200 hover:bg-gray-50 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 disabled:cursor-not-allowed"
           >
             {isClosing ? closingBtnText : closeBtnText}
           </button>
           <button
             onClick={handleConfirm}
             disabled={isConfirming}
-            className="w-full cursor-pointer rounded-md bg-blue-600 p-2 font-semibold text-white transition-colors duration-200 hover:bg-blue-700 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 disabled:cursor-not-allowed"
+            className="cursor-pointer rounded-md bg-blue-600 p-2 px-4 font-semibold text-white transition-colors duration-200 hover:bg-blue-700 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 disabled:cursor-not-allowed"
           >
             {isConfirming ? confirmingBtnText : confirmBtnText}
           </button>

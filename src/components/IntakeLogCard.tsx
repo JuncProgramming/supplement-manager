@@ -56,7 +56,8 @@ const IntakeLogCard = ({
             <div className="min-w-0 flex-1">
               <p className="font-medium text-gray-800">{log.name}</p>
               <p className="text-xs text-gray-400">
-                {log.brand} · {log.amountTaken} {log.unit}
+                {log.brand ? `${log.brand} · ` : ''} {log.amountTaken}{' '}
+                {log.unit}
               </p>
             </div>
             <span className="flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">
