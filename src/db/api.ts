@@ -11,11 +11,40 @@ export const addSupplement = async (supplement: Supplement) => {
   }
 }
 
-export const deleteSupplement = async (supplementId?: number) => {
+export const deleteSupplement = async (
+  supplementId?: number,
+  dateToDeleteLogsFor?: string
+) => {
   if (!supplementId) return
 
   try {
-    await db.supplements.delete(supplementId)
+    await db.transaction(
+      'rw',
+      db.supplements,
+      db.intakeLogs,
+      db.dailySnapshots,
+      async () => {
+        await db.supplements.delete(supplementId)
+
+        if (dateToDeleteLogsFor) {
+          await db.intakeLogs
+            .where('supplementId')
+            .equals(supplementId)
+            .and((log) => log.date === dateToDeleteLogsFor)
+            .delete()
+
+          const todaySnapshot = await db.dailySnapshots.get(dateToDeleteLogsFor)
+          if (todaySnapshot) {
+            await db.dailySnapshots.put({
+              ...todaySnapshot,
+              supplements: todaySnapshot.supplements.filter(
+                (supplement) => supplement.supplementId !== supplementId
+              )
+            })
+          }
+        }
+      }
+    )
   } catch (error) {
     console.error('Failed to delete supplement:', error)
     throw error

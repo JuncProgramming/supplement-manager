@@ -1,4 +1,5 @@
 import { useLiveQuery } from 'dexie-react-hooks'
+import { format } from 'date-fns/fp'
 import db from '@/db/db'
 import SupplementFormModal from '@/components/SupplementFormModal'
 import { useState } from 'react'
@@ -27,7 +28,8 @@ const InventoryPage = () => {
 
   const handleDelete = async (supplementId?: number) => {
     try {
-      await deleteSupplement(supplementId)
+      const dateToDeleteLogsFor = format('yyyy-MM-dd')(new Date())
+      await deleteSupplement(supplementId, dateToDeleteLogsFor)
     } catch (error) {
       console.error('Failed to delete supplement:', error)
     }
