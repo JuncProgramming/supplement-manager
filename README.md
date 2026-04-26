@@ -1,73 +1,137 @@
-# React + TypeScript + Vite
+# 💊 Supplement Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web app for planning supplement routines, tracking daily intake, and reviewing long-term consistency.
 
-Currently, two official plugins are available:
+The app is designed for users who want a simple daily checklist and history insights without needing an account.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Project Gallery
 
-## React Compiler
+<table align="center">
+  <tr>
+    <td align="center">
+      <strong>Dashboard Overview</strong><br/>
+      <img src="https://github.com/user-attachments/assets/056810e8-ccf0-4575-bac4-48704659081d" alt="Dashboard overview" width="400"/>
+    </td>
+    <td align="center">
+      <strong>Inventory Management</strong><br/>
+      <img src="https://github.com/user-attachments/assets/05fa254b-180f-48e2-b4a5-9ce5654dbfad" alt="Inventory page" width="400"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Add/Edit Supplement</strong><br/>
+      <img src="https://github.com/user-attachments/assets/fd72c183-3980-4fb3-b416-bb50d40d128b" alt="Add/Edit modal" width="400"/>
+    </td>
+    <td align="center">
+      <strong>Intake History</strong><br/>
+      <img src="https://github.com/user-attachments/assets/37351102-47bc-4b66-82a6-a45aafc4cb10" alt="History page" width="400"/>
+    </td>
+  </tr>
+</table>
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Key Features
 
-## Expanding the ESLint configuration
+- Daily schedule tracking: check off supplements by time-of-day slots (morning, afternoon, evening, before/during/after workout).
+- Progress analytics: today's completion percentage, remaining doses, and current routine size.
+- Inventory management: create, edit, and delete supplements with unit-aware dosage and stock data.
+- Stock awareness: automatic servings-left calculation with low-stock warnings.
+- Historical reconstruction: daily snapshots preserve what was scheduled on each date, even if routine changes later.
+- Rich history filters: filter by status (all, taken, missed) and by one or more time windows.
+- Consistency metrics: completion rate and current all-taken day streak.
+- Responsive UX: desktop navigation plus mobile menu, loading states, and confirmation modals.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## App Structure
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Routes
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked
+- `/` Dashboard: daily schedule and progress cards.
+- `/inventory` Inventory: supplement CRUD and stock overview.
+- `/history` History: grouped intake logs, filtering, and adherence stats.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname
-      }
-      // other options...
-    }
-  }
-])
+### Data Layer (IndexedDB via Dexie)
+
+- `supplements`: core supplement definitions (name, brand, stock, unit, dosage, schedule).
+- `intakeLogs`: actual checkbox actions by date/time.
+- `dailySnapshots`: immutable daily schedule snapshots used to build complete history, including missed items.
+
+This approach keeps the app fully local and fast while still supporting robust historical analytics.
+
+## Tech Stack
+
+- Language: TypeScript
+- Frontend: React
+- Routing: React Router
+- Styling: Tailwind
+- Local storage DB: Dexie + IndexedDB
+- Date utilities: date-fns
+- Icons: lucide-react
+- Testing: Vitest + Testing Library + jsdom
+- Build tool: Vite
+
+## Running the Project Locally
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/JuncProgramming/supplement-manager.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Enter the project folder:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname
-      }
-      // other options...
-    }
-  }
-])
+```bash
+cd supplement-manager
 ```
+
+3. Install dependencies:
+
+```bash
+npm install
+```
+
+4. Start development server:
+
+```bash
+npm run dev
+```
+
+5. Open the app in your browser:
+
+- `http://localhost:5173` (or the port printed by Vite)
+
+## Available Scripts
+
+- `npm run dev` Starts Vite dev server.
+- `npm run build` Type-checks and builds production assets.
+- `npm run preview` Serves the production build locally.
+- `npm run test` Runs the Vitest suite.
+- `npm run lint` Runs ESLint with autofix and Prettier formatting.
+
+## Testing
+
+Run tests:
+
+```bash
+npm run test
+```
+
+Current suite focuses on component behavior and UX-critical interactions, including:
+
+- Modal behavior and async button states
+- Mobile menu toggling and navigation
+- Daily schedule checkbox mapping and toggling
+- Intake history cards and progress visualization
+- Inventory cards, stock thresholds, and action callbacks
+- Form validation and API-call wiring for create/edit flows
+
+## Validation and UX Rules Implemented
+
+- Current stock must be 0 or greater.
+- Dosage per serving must be greater than 0.
+- At least one time-of-day slot must be selected.
+- Form submission provides loading states and clear error messages.
+- Destructive actions are confirmed through a dedicated confirmation modal.
+
+## What I Learned / Project Challenges
+
+* Used a snapshot system to maintain an accurate history of supplement intake. By recording both individual intake logs and daily state snapshots, I ensured that historical records remain consistent, even as schedules or dosages change over time. Before snapshots were implemented, the current routine could modify the history.
+* **Local Persistence with Dexie.js**: Implemented **IndexedDB** managed through **Dexie.js**. This allowed for a more scalable alternative to LocalStorage.
